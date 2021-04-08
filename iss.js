@@ -25,4 +25,22 @@ const fetchMyIP = function(callback) {
   });
 };
 
-module.exports = { fetchMyIP };
+const fetchCoordByIP = function(ip, callback) {
+  request(`https://freegeoip.app/json/${ip}`, (error, response, body) => {
+    if (error) { // execute code if error
+      callback(error, null); // pass into callback to indicate something's wrong
+      process.exit();
+    }
+
+    if (response.statusCode !== 200) { // execute if response.statusCode isn't 200
+      const msg = `Status Code ${response.statusCode} when fetching IP. Response: ${body}`;
+      callback(Error(msg), null); // pass into callback to indicate something's wrong
+      process.exit();
+    }
+
+    const { latitude, longitude } = JSON.parse(body);
+    callback(null, { latitude, longitude });
+  });
+};
+
+module.exports = { fetchMyIP, fetchCoordByIP };
