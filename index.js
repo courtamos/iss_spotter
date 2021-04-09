@@ -21,3 +21,5 @@ nextISSTimesForMyLocation((error, passTimes) => {
 
   passTimesOutput(passTimes); // call passTimesOutput for final output to console
 });
+
+module.exports = { passTimesOutput };
